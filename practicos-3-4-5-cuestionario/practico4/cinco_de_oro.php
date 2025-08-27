@@ -1,26 +1,43 @@
 <?php
-function iniciar() {
-    // Tomar los números del jugador
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    iniciar();
+}
+
+function iniciar()
+{
+    // Recibir números y validar duplicados y rango
     $jugador = [];
     for ($i = 1; $i <= 5; $i++) {
-        $jugador[] = intval($_POST["num$i"]);
+        $num = intval($_POST["num$i"]);
+        if ($num < 1 || $num > 48) {
+            die("Error: Números deben estar entre 1 y 48.");
+        }
+        if (in_array($num, $jugador)) {
+            die("Error: No se permiten números duplicados.");
+        }
+        $jugador[] = $num;
     }
+
     $extraJugador = intval($_POST['extra']);
+    if ($extraJugador < 1 || $extraJugador > 48) {
+        die("Error: Bolilla extra debe estar entre 1 y 48.");
+    }
+
     $lapsos = intval($_POST['lapsos']);
-    
     $costoPorJugada = 35;
     $totalDinero = 0;
 
+    // Factor para calcular años exactos
+    $factor = [
+        2 => 1 / 52,       // 1 semana = 2 jugadas
+        8 => 1 / 12,       // 1 mes = 8 jugadas
+        96 => 1,         // 1 año = 96 jugadas
+        960 => 10 / 960,   // 10 años / 960 jugadas
+        9600 => 100 / 9600 // 100 años / 9600 jugadas
+    ][$lapsos];
+
     echo "<h1>Resultados del Cinco de Oro</h1>";
-
-    // Determinar el factor de conversión jugadas → años
-    if ($lapsos <= 2) $factor = 0.5; // 1 semana = 2 jugadas → 0.5 semana por jugada
-    elseif ($lapsos == 8) $factor = 0.125; // 1 mes = 8 jugadas → 0.125 mes por jugada
-    elseif ($lapsos == 96) $factor = 1/12; // 1 año = 96 jugadas → 1/12 año por jugada
-    elseif ($lapsos == 960) $factor = 10/960; // 10 años / 960 jugadas
-    else $factor = 100/9600; // 100 años / 9600 jugadas
-
-    echo "<table border='1' cellpadding='5' cellspacing='0'>";
+    echo "<table>";
     echo "<tr>
             <th>Jugada</th>
             <th>Bolillas</th>
@@ -41,18 +58,20 @@ function iniciar() {
         $totalDinero += $dinero;
 
         $pozo = "";
+        $clase = "";
         if ($aciertos == 5 && !$pozoOro) {
             $pozo = "Pozo de Oro";
             $pozoOro = true;
+            $clase = "pozoOro";
         } elseif ($aciertos == 4 && $aciertoExtra && !$pozoPlata) {
             $pozo = "Pozo de Plata";
             $pozoPlata = true;
+            $clase = "pozoPlata";
         }
 
-        // Calcular el año aproximado
         $anio = round($j * $factor, 2);
 
-        echo "<tr>
+        echo "<tr class='$clase'>
                 <td>$j</td>
                 <td>" . implode(', ', $sorteo) . "</td>
                 <td>$aciertos</td>
@@ -72,8 +91,9 @@ function iniciar() {
     echo "<h2>Saldo neto: $$saldo</h2>";
 }
 
-// Función que genera una jugada aleatoria
-function bolillero() {
+// Funciones principales
+function bolillero()
+{
     $bolillas = range(1, 48);
     shuffle($bolillas);
     $sorteo = array_slice($bolillas, 0, 5);
@@ -81,28 +101,22 @@ function bolillero() {
     return $sorteo;
 }
 
-// Función que calcula aciertos (sin contar extra)
-function aciertos($jugador, $sorteo) {
-    $bolillasSorteo = array_slice($sorteo, 0, 5);
-    return count(array_intersect($jugador, $bolillasSorteo));
+function aciertos($jugador, $sorteo)
+{
+    return count(array_intersect($jugador, array_slice($sorteo, 0, 5)));
 }
 
-// Función que verifica si acierta la bolilla extra
-function hayExtra($extraJugador, $sorteo) {
-    $extraSorteo = $sorteo[5];
-    return $extraJugador === $extraSorteo;
+function hayExtra($extraJugador, $sorteo)
+{
+    return $extraJugador === $sorteo[5];
 }
 
-// Función que calcula dinero ganado
-function dinero($aciertos, $aciertoExtra) {
+function dinero($aciertos, $aciertoExtra)
+{
     if ($aciertos == 5) return 7000;
     if ($aciertos == 4 && $aciertoExtra) return 1400;
     if ($aciertos == 4) return 350;
     if ($aciertos == 3 && $aciertoExtra) return 140;
     if ($aciertos == 3) return 50;
-    return 0; // los demás casos no tienen premio
+    return 0;
 }
-
-// Ejecutar
-iniciar();
-?>

@@ -6,28 +6,28 @@
     <title>Cinco de Oro</title>
   </head>
   <body>
-    <h2>Juega al Cinco de Oro</h2>
-    <form method="post" action="cinco_de_oro.php">
-      Números (1-48):<br>
-      <input type="number" name="num1" min="1" max="48" required />
-      <input type="number" name="num2" min="1" max="48" required />
-      <input type="number" name="num3" min="1" max="48" required />
-      <input type="number" name="num4" min="1" max="48" required />
-      <input type="number" name="num5" min="1" max="48" required /><br><br>
+    <h1>Juega al Cinco de Oro</h1>
+    <form action="cinco_de_oro.php" method="POST">
+        <p>Elija 5 números (1-48):</p>
+        <input type="number" name="num1" min="1" max="48" required>
+        <input type="number" name="num2" min="1" max="48" required>
+        <input type="number" name="num3" min="1" max="48" required>
+        <input type="number" name="num4" min="1" max="48" required>
+        <input type="number" name="num5" min="1" max="48" required><br><br>
 
-      Bolilla extra (1-48):<br>
-      <input type="number" name="extra" min="1" max="48" required /><br><br>
+        <p>Bolilla extra (1-48):</p>
+        <input type="number" name="extra" min="1" max="48" required><br><br>
 
-      Lapsos:<br>
-      <select name="lapsos">
-        <option value="2">1 semana (2 jugadas)</option>
-        <option value="8">1 mes (8 jugadas)</option>
-        <option value="96">1 año (96 jugadas)</option>
-        <option value="960">10 años (960 jugadas)</option>
-        <option value="9600">100 años (9600 jugadas)</option></select
-      ><br><br>
+        <p>Seleccione lapsos:</p>
+        <select name="lapsos" required>
+            <option value="2">1 semana (2 jugadas)</option>
+            <option value="8">1 mes (8 jugadas)</option>
+            <option value="96">1 año (96 jugadas)</option>
+            <option value="960">10 años (960 jugadas)</option>
+            <option value="9600">100 años (9600 jugadas)</option>
+        </select><br><br>
 
-      <input type="submit" value="Jugar" />
+        <input type="submit" value="Jugar">
     </form>
   </body>
 </html>
