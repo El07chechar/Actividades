@@ -28,15 +28,9 @@ function iniciar()
     $lapsos = intval($_POST['lapsos']);
     $costoPorJugada = 35;
 
-    // Factor para calcular año aproximado de la jugada (para Pozo)
-    $factor = match ($lapsos) {
-        2 => 1 / 52,
-        8 => 1 / 12,
-        96 => 1,
-        960 => 10 / 960,
-        9600 => 100 / 9600,
-        default => 1,
-    };
+    // --- Año base ---
+    $anioBase = 2025;
+    $sorteosPorAnio = 52; // se asume un sorteo semanal
 
     echo "<h1>Resultados del Cinco de Oro</h1>";
     echo "<table border='1' cellpadding='5'>";
@@ -73,7 +67,9 @@ function iniciar()
             $clase = "pozoPlata";
         }
 
-        $anio = round($j * $factor, 2);
+        // Cálculo del año calendario real
+        $aniosPasados = floor(($j - 1) / $sorteosPorAnio);
+        $anio = $anioBase + $aniosPasados;
 
         echo "<tr class='$clase'>
                 <td>$j</td>
