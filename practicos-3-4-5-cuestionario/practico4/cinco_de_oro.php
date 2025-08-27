@@ -1,11 +1,12 @@
 <?php
+// Ejecuta la función principal solo si llega un POST
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     iniciar();
 }
 
 function iniciar()
 {
-    // Recibir números y validar duplicados y rango
+    // --- Recibir y validar números del jugador ---
     $jugador = [];
     for ($i = 1; $i <= 5; $i++) {
         $num = intval($_POST["num$i"]);
@@ -23,21 +24,22 @@ function iniciar()
         die("Error: Bolilla extra debe estar entre 1 y 48.");
     }
 
+    // --- Lapsos y costo de jugada ---
     $lapsos = intval($_POST['lapsos']);
     $costoPorJugada = 35;
-    $totalDinero = 0;
 
-    // Factor para calcular años exactos
-    $factor = [
-        2 => 1 / 52,       // 1 semana = 2 jugadas
-        8 => 1 / 12,       // 1 mes = 8 jugadas
-        96 => 1,         // 1 año = 96 jugadas
-        960 => 10 / 960,   // 10 años / 960 jugadas
-        9600 => 100 / 9600 // 100 años / 9600 jugadas
-    ][$lapsos];
+    // Factor para calcular año aproximado de la jugada (para Pozo)
+    $factor = match ($lapsos) {
+        2 => 1 / 52,
+        8 => 1 / 12,
+        96 => 1,
+        960 => 10 / 960,
+        9600 => 100 / 9600,
+        default => 1,
+    };
 
     echo "<h1>Resultados del Cinco de Oro</h1>";
-    echo "<table>";
+    echo "<table border='1' cellpadding='5'>";
     echo "<tr>
             <th>Jugada</th>
             <th>Bolillas</th>
@@ -49,7 +51,9 @@ function iniciar()
 
     $pozoOro = false;
     $pozoPlata = false;
+    $totalDinero = 0;
 
+    // --- Simulación de cada jugada ---
     for ($j = 1; $j <= $lapsos; $j++) {
         $sorteo = bolillero();
         $aciertos = aciertos($jugador, $sorteo);
@@ -81,8 +85,7 @@ function iniciar()
               </tr>";
     }
 
-    echo "</table>";
-
+    // --- Estadísticas finales ---
     $totalApostado = $lapsos * $costoPorJugada;
     $saldo = $totalDinero - $totalApostado;
 
@@ -91,7 +94,10 @@ function iniciar()
     echo "<h2>Saldo neto: $$saldo</h2>";
 }
 
-// Funciones principales
+// =======================
+// --- Funciones auxiliares
+// =======================
+
 function bolillero()
 {
     $bolillas = range(1, 48);
@@ -103,6 +109,7 @@ function bolillero()
 
 function aciertos($jugador, $sorteo)
 {
+    // Compara solo las 5 primeras bolillas
     return count(array_intersect($jugador, array_slice($sorteo, 0, 5)));
 }
 
@@ -113,10 +120,13 @@ function hayExtra($extraJugador, $sorteo)
 
 function dinero($aciertos, $aciertoExtra)
 {
+    // Premios según la consigna, incluyendo 2 aciertos
     if ($aciertos == 5) return 7000;
     if ($aciertos == 4 && $aciertoExtra) return 1400;
     if ($aciertos == 4) return 350;
     if ($aciertos == 3 && $aciertoExtra) return 140;
     if ($aciertos == 3) return 50;
+    if ($aciertos == 2 && $aciertoExtra) return 15;  // Ajusta según consigna
+    if ($aciertos == 2) return 5;                    // Ajusta según consigna
     return 0;
 }
