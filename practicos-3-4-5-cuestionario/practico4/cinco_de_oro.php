@@ -99,9 +99,13 @@ function bolillero()
     $bolillas = range(1, 48);
     shuffle($bolillas);
     $sorteo = array_slice($bolillas, 0, 5);
-    $sorteo[] = $bolillas[5]; // bolilla extra
+    do {
+        $extra = rand(1, 48);
+    } while (in_array($extra, $sorteo));
+    $sorteo[] = $extra;
     return $sorteo;
 }
+
 
 function aciertos($jugador, $sorteo)
 {
@@ -116,13 +120,12 @@ function hayExtra($extraJugador, $sorteo)
 
 function dinero($aciertos, $aciertoExtra)
 {
-    // Premios según la consigna, incluyendo 2 aciertos
-    if ($aciertos == 5) return 7000;
-    if ($aciertos == 4 && $aciertoExtra) return 1400;
-    if ($aciertos == 4) return 350;
-    if ($aciertos == 3 && $aciertoExtra) return 140;
-    if ($aciertos == 3) return 50;
-    if ($aciertos == 2 && $aciertoExtra) return 15;  // Ajusta según consigna
-    if ($aciertos == 2) return 5;                    // Ajusta según consigna
+    if ($aciertos == 5) return 0; // Pozo de Oro, premio aparte
+    if ($aciertos == 4 && $aciertoExtra) return 0; // Pozo de Plata, premio aparte
+    if ($aciertos == 4) return 7000;
+    if ($aciertos == 3 && $aciertoExtra) return 1400;
+    if ($aciertos == 3) return 350;
+    if ($aciertos == 2 && $aciertoExtra) return 140;
+    if ($aciertos == 2) return 50;
     return 0;
 }
