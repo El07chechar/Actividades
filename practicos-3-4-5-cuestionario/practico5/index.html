@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Formulario</title>
+</head>
+<body>
+        <h1>Ingreso de Alumno</h1>
+    <form action="controlador.php" method="POST">
+        <label>Apellido: <input type="text" name="apellido" required></label><br>
+        <label>Grupo: <input type="number" name="grupo" required></label><br>
+        <label>Cuota Base: <input type="number" step="0.01" name="cuotaBase" required></label><br>
+        <label>Fecha de Nacimiento:</label>
+        <input type="number" name="dia" placeholder="Día" required>
+        <input type="number" name="mes" placeholder="Mes" required>
+        <input type="number" name="anio" placeholder="Año" required><br>
+        <label>Tipo:</label>
+        <select name="tipo" required>
+            <option value="alumno">Alumno</option>
+            <option value="becado">Becado</option>
+        </select><br>
+        <label>Beca (si aplica): <input type="number" step="0.01" name="beca"></label><br>
+        <input type="submit" value="Calcular">
+    </form>
+</body>
+</html>

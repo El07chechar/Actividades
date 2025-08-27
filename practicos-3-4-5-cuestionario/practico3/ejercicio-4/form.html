@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>formulario</title>
+  </head>
+  <body>
+    <form action="procesar.php" method="post">
+      <fieldset>
+        <legend>Conjunto A</legend>
+        <label for="cardinal">Cardinal:</label>
+        <input type="radio" name="cardinalA" id="cardinal1A" value="10" />
+        <label for="cardinal1A">10</label>
+        <input type="radio" name="cardinalA" id="cardinal2A" value="50" />
+        <label for="cardinal2A">50</label>
+        <input type="radio" name="cardinalA" id="cardinal3A" value="100" />
+        <label for="cardinal3A">100</label>
+        <input type="radio" name="cardinalA" id="cardinalAzarA" value="azar" />
+        <label for="cardinalAzarA">Azar</label>
+        <label for="tipo1">Tipo</label>
+        <select name="tipo1" id="tipo1">
+          <option value="pares">Pares</option>
+          <option value="impares">Impares</option>
+          <option value="azar">Azar</option>
+        </select>
+      </fieldset>
+      <fieldset>
+        <legend>Conjunto B</legend>
+        <label for="cardinal1B">Cardinal:</label>
+        <input type="radio" name="cardinalB" id="cardinal1B" value="10" />
+        <label for="cardinal1B">10</label>
+        <input type="radio" name="cardinalB" id="cardinal2B" value="50" />
+        <label for="cardinal2B">50</label>
+        <input type="radio" name="cardinalB" id="cardinal3B" value="100" />
+        <label for="cardinal3B">100</label>
+        <input type="radio" name="cardinalB" id="cardinalAzarB" value="azar" />
+        <label for="cardinalAzarB">Azar</label>
+        <label for="tipo2">Tipo</label>
+        <select name="tipo2" id="tipo2">
+          <option value="pares">Pares</option>
+          <option value="impares">Impares</option>
+          <option value="azar">Azar</option>
+        </select>
+      </fieldset>
+
+      <label for="operacion">Operación:</label>
+      <select name="operacion" id="operacion">
+        <option value="union">Unión</option>
+        <option value="interseccion">Intersección</option>
+        <option value="diferencia">Diferencia</option>
+      </select>
+      <input type="submit" value="Enviar Consulta" />
+    </form>
+  </body>
+</html>
