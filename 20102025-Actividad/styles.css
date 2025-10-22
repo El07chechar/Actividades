@@ -1,0 +1,43 @@
+body {
+  background: #fefefc;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+}
+section {
+  display: flex;
+  flex-direction: column;
+  width: 50%;
+  height: 70%;
+  align-items: center;
+  justify-content: space-between;
+  text-align: center;
+  background: #fefefe;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+h1 {
+  font-size: 3vw;
+  color: #333;
+  margin: 20px;
+}
+.contenedor-boton {
+  height: 40%;
+  width: 100%;
+  background-color: #000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+#Button {
+  background-color: #ffffff;
+  color: #000000;
+  border: 1px solid #000000;
+  border-radius: 10px;
+  padding: 15px 30px;
+  font-size: 1.5rem;
+  cursor: pointer;
+  width: 50%;
+  height: 50%;
+  transition: background-color 0.3s ease;
+}
